@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>帘子导航</title>
+	<style>
+        body,input{
+        	margin:0;
+        	padding:0;
+        }
+        .wrap{
+        	position:relative;
+        	width: 400px;
+        	height:30px;           /*这儿的高度必须这样去设置*/
+        	margin:100px auto;
+        	perspective:800px;     /*为了3d效果，景深*/
+        }
+        #btn{
+        	position:absolute;      /*为了下面的z-index:999;与它的位置定位无关 */
+        	top:0;   
+        	left:0;  
+          width: 400px;  	
+        	height: 30px;
+        	background-color: #c93;
+        	border:none;
+          z-index:999;
+        }
+        .wrap div{
+        	position:absolute;      /*为了卷帘的时候，不会受到空白间距的影响所以用了定位*/
+        	left:0;
+        	top:30px;               /*细节，它的顶部度为30，span的高度为26这样就会出现那个空白 间距*/
+        	width: 400px; 
+          height: 30px; 
+        	transform-style:preserve-3d;       /*3d的视觉盛宴*/
+          transform-origin:top;              /*就是沿div多出的那条白线旋转的*/
+        	transform:rotateX(-90deg);        	   	       
+        }
+        /*给它加标签名是因为它是一个只有过渡动画的效果所以要加，与其他无关*/
+         div  .open{
+          transform:rotateX(0deg);/*之所以加上它是因为旋转后就会自动变为0度，不加的话就会变成-90，又重新隐藏起来了*/
+        	animation:open 4s linear;
+        }
+        @keyframes open{
+        	0%{
+        		     transform:rotateX(-90deg);
+        	}
+        	30%{
+                 transform:rotateX(5deg);
+        	}
+        	80%{
+                 transform:rotateX(-5deg);
+        	}
+        	90%{
+        		     transform:rotateX(3deg);
+        	}
+        	100%{
+                 transform:rotateX(0);
+        	}
+        }
+        div .close{
+                 transform:rotateX(-90deg);
+                 animation:close 2s linear;
+        }
+        @keyframes close{
+        	0%{
+        		 transform:rotateX(0deg);
+        	}
+        	100%{
+        		 transform:rotateX(-90deg);
+        	}
+        }
+         span{
+        	display:block;        	
+        	height: 28px;
+          width: 400px;
+        	text-align:center;
+        	line-height:30px;
+        	background-color: rgb(153,102,102);
+        }
+	</style>
+</head>
+<body>
+	<div class ='wrap'>
+		<input id ='btn' type="button" value = '打开'>
+		<div>
+			<span>理想</span>
+			    <div>
+			    <span>信念</span>
+				    <div>
+				      <span>毅力</span>
+					      <div>
+				         <span>坚持</span>
+					          <div>
+				              <span>拼搏</span>
+							           <div>
+						                 <span>努力</span>
+						                     <div>
+			                             <span>幸福</span>
+			                                 <div>
+			                                 <span>开心</span>
+				                                  <div>
+				                                  <span>快乐</span>
+			                                      </div>
+		                                     </div>
+		                                 </div>
+					                     </div>
+			                  </div>
+			             </div>
+			         </div>
+		      </div>
+		</div>
+	</div>
+	<script>
+          var obtn = document.querySelector('#btn'),
+          odiv = document.querySelectorAll('div'),
+              // odiv = document.querySelectorAll('.wrap div'),如果是这样写的话i就从0开始因为不会获取到。wrap
+              timer = null,
+              i = 1,
+              mark = true;
+          obtn.onclick = function(){
+          	if(mark){
+          		i = 1;
+          		timer = setInterval(function(){
+                	     if(i === odiv.length-1) clearInterval(timer);
+          		              odiv[i].className = 'open';
+                             i++;
+                       },100);     //这的定时是让div一个一个卷出来，如果为0的话就会一股脑子的出来
+              }else{
+                       i = odiv.length-1;
+                       timer = setInterval(function(){
+                    	 if(i == 1) clearInterval(timer);
+            		            odiv[i].className = 'close';
+            		          	i--;
+                        },200);
+                  }
+                    mark = !mark;
+              }
+        
+
+	</script>
+</body>
+</html>
